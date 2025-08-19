@@ -3,6 +3,7 @@ using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using System.Drawing;
 using Tamale.Behaviour;
+using Tamale.Behaviour.Collision;
 using Tamale.Rendering;
 using Texture = Tamale.Rendering.Texture;
 
@@ -185,17 +186,16 @@ namespace Tamale
 
             Model model = new Model(vertices);
             Model skullModel = new Model(skullverts);
-            Texture texture = new Texture("./Assets/texture.png");
             Texture texture1 = new Texture("./Assets/texture1.png");
             Texture skullTexture = new Texture("./Assets/skull.jpg");
-            GameObject gameObject = new GameObject(new Vector3D<float>(1.5f, 0, 0), new Vector3D<float>(0, 0, 0), model, texture);
-            GameObject gameObject1 = new GameObject(new Vector3D<float>(-1.5f, 0, 0), new Vector3D<float>(0, 0, 0), model, texture1);
-            GameObject gameObject2 = new GameObject(new Vector3D<float>(0, 0, 0), new Vector3D<float>(0, 0, 0), skullModel, skullTexture);
+            GameObject gameObject1 = new TestGameObject(new Vector3D<float>(-1.5f, 0, 0), new Vector3D<float>(0, 0, 0), model, texture1);
+            GameObject gameObject2 = new GameObject(new Vector3D<float>(0, 0, 0), new Vector3D<float>(0, 0, 0), model, skullTexture);
             Component spin = new Spin();
-            gameObject.components.Add(spin);
+            Component box1 = new AABox();
+            Component box2 = new AABox();
             gameObject1.components.Add(spin);
-            gameObject2.components.Add(spin);
-            SharedData.gameObjects.Add(gameObject);
+            gameObject1.components.Add(box1);
+            gameObject2.components.Add(box2);
             SharedData.gameObjects.Add(gameObject1);
             SharedData.gameObjects.Add(gameObject2);
         }

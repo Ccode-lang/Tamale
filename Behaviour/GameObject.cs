@@ -50,6 +50,11 @@ namespace Tamale.Behaviour
             Program.gl.DrawArrays(PrimitiveType.Triangles, 0, Model.vertexCount);
         }
 
+        public Component GetComponent<T>() where T : Component
+        {
+            return components.OfType<T>().FirstOrDefault();
+        }
+
         public void UpdateInternal(double delta)
         {
             foreach (Component component in components)

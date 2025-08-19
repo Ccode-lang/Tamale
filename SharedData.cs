@@ -1,5 +1,6 @@
 ﻿using Silk.NET.Maths;
 using Tamale.Behaviour;
+using Tamale.Behaviour.Collision;
 
 namespace Tamale
 {
@@ -18,5 +19,6 @@ namespace Tamale
 
 
         public static List<GameObject> gameObjects = new List<GameObject>();
+        public static List<AABox> AABoxes = new List<AABox>();
     }
 }
