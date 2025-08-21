@@ -1,4 +1,6 @@
-﻿using Silk.NET.Maths;
+﻿using Jitter2;
+using Jitter2.Dynamics;
+using Silk.NET.Maths;
 using Tamale.Behaviour;
 using Tamale.Behaviour.Collision;
 
@@ -20,5 +22,11 @@ namespace Tamale
 
         public static List<GameObject> gameObjects = new List<GameObject>();
         public static List<AABox> AABoxes = new List<AABox>();
+        public static World world = new World();
+
+        public static AABox GetAABoxFromRigidbody(RigidBody body)
+        {
+            return AABoxes.FirstOrDefault(box => box.body.RigidBodyId == body.RigidBodyId);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Silk.NET.Maths;
+﻿using Jitter2.Dynamics;
+using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Tamale.Rendering;
 using Texture = Tamale.Rendering.Texture;
@@ -67,6 +68,14 @@ namespace Tamale.Behaviour
             Update(delta);
         }
         public virtual void Update(double delta)
+        {
+        }
+
+        public virtual void CollideStart(Arbiter arb)
+        {
+        }
+
+        public virtual void CollideEnd(Arbiter arb)
         {
         }
     }

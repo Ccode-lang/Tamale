@@ -10,5 +10,6 @@ namespace Tamale.Behaviour
     {
         public GameObject gameObject = null;
         public abstract void Update(double delta);
+        public abstract void Destroy();
     }
 }

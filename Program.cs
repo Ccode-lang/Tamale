@@ -221,6 +221,8 @@ namespace Tamale
             {
                 gameObject.UpdateInternal(delta);
             }
+
+            SharedData.world.Step((float)delta);
         }
     }
 }

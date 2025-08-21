@@ -1,4 +1,8 @@
-﻿using Silk.NET.Maths;
+﻿using Jitter2;
+using Jitter2.Collision.Shapes;
+using Jitter2.Dynamics;
+using Jitter2.LinearMath;
+using Silk.NET.Maths;
 
 namespace Tamale.Behaviour.Collision
 {
@@ -6,12 +10,22 @@ namespace Tamale.Behaviour.Collision
     {
         public Vector3D<float> Scale = new Vector3D<float>(1, 1, 1);
 
-        public bool Collided = false;
+        public bool IsStatic = false;
+        public RigidBody body;
+
+        private bool firstUpdate = true;
 
         public AABox()
         {
             SharedData.AABoxes.Add(this);
+            body = SharedData.world.CreateRigidBody();
+            body.AddShape(new BoxShape(1));
+            body.IsStatic = IsStatic;
+            body.SetMassInertia(JMatrix.Zero, 1e-3f, setAsInverse: true);
+            body.Damping = (linear: 0.0f, angular: 0.0f);
         }
+
+
 
         public bool PointInAABox(Vector3D<float> point, AABox box)
         {
@@ -25,41 +39,20 @@ namespace Tamale.Behaviour.Collision
 
         public override void Update(double delta)
         {
-            float xs = Scale.X / 2;
-            float ys = Scale.Y / 2;
-            float zs = Scale.Z / 2;
-            // z+
-            Vector3D<float> point1 = new Vector3D<float>(-xs, -ys, zs);
-            Vector3D<float> point2 = new Vector3D<float>(xs, -ys, zs);
-            Vector3D<float> point3 = new Vector3D<float>(-xs, ys, zs);
-            Vector3D<float> point4 = new Vector3D<float>(xs, ys, zs);
-            // z-
-            Vector3D<float> point5 = new Vector3D<float>(-xs, -ys, -zs);
-            Vector3D<float> point6 = new Vector3D<float>(xs, -ys, -zs);
-            Vector3D<float> point7 = new Vector3D<float>(-xs, ys, -zs);
-            Vector3D<float> point8 = new Vector3D<float>(xs, ys, -zs);
+            body.Position = new JVector(gameObject.Position.X, gameObject.Position.Y, gameObject.Position.Z);
 
-            if (gameObject == null) return;
-
-            foreach (AABox box in SharedData.AABoxes)
+            if (firstUpdate)
             {
-                if (box == this) continue;
-                if (box.gameObject == null) continue;
-                bool collided = PointInAABox(gameObject.Position + point1, box) ||
-                                PointInAABox(gameObject.Position + point2, box) ||
-                                PointInAABox(gameObject.Position + point3, box) ||
-                                PointInAABox(gameObject.Position + point4, box) ||
-                                PointInAABox(gameObject.Position + point5, box) ||
-                                PointInAABox(gameObject.Position + point6, box) ||
-                                PointInAABox(gameObject.Position + point7, box) ||
-                                PointInAABox(gameObject.Position + point8, box);
-                if (collided)
-                {
-                    Collided = true;
-                    return;
-                }
+                body.BeginCollide += gameObject.CollideStart;
+                body.EndCollide += gameObject.CollideEnd;
+                firstUpdate = false;
             }
-            Collided = false;
+        }
+
+        public override void Destroy()
+        {
+            body.RemoveShape(body.Shapes[0]);
+            SharedData.world.Remove(body);
         }
     }
 }
