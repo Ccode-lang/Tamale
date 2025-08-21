@@ -19,6 +19,7 @@ namespace Tamale.Behaviour.Collision
         {
             SharedData.AABoxes.Add(this);
             body = SharedData.world.CreateRigidBody();
+            //TODO: make sized boxes work
             body.AddShape(new BoxShape(1));
             body.IsStatic = IsStatic;
             body.SetMassInertia(JMatrix.Zero, 1e-3f, setAsInverse: true);
