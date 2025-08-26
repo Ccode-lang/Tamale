@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Tamale.Rendering
 {
-    internal class Texture
+    public class Texture
     {
         public uint ID;
 

@@ -1,4 +1,5 @@
 ﻿using Jitter2;
+using Jitter2.Collision;
 using Jitter2.Collision.Shapes;
 using Jitter2.Dynamics;
 using Jitter2.LinearMath;
@@ -6,7 +7,7 @@ using Silk.NET.Maths;
 
 namespace Tamale.Behaviour.Collision
 {
-    internal class AABox : Component
+    public class AABox : Component
     {
         public Vector3D<float> Scale = new Vector3D<float>(1, 1, 1);
 
@@ -47,13 +48,20 @@ namespace Tamale.Behaviour.Collision
                 body.BeginCollide += gameObject.CollideStart;
                 body.EndCollide += gameObject.CollideEnd;
                 firstUpdate = false;
+
+                IDynamicTreeProxy proxy = body.Shapes[0];
+                SharedData.ProxyPtrToObjectTable.Add(proxy.NodePtr, gameObject);
             }
         }
 
         public override void Destroy()
         {
+            base.Destroy();
             body.RemoveShape(body.Shapes[0]);
             SharedData.world.Remove(body);
+            SharedData.AABoxes.Remove(this);
+            IDynamicTreeProxy proxy = body.Shapes[0];
+            SharedData.ProxyPtrToObjectTable.Remove(proxy.NodePtr);
         }
     }
 }

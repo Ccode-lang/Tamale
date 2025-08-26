@@ -24,15 +24,10 @@ namespace Tamale
         public override void Update(double delta)
         {
             AABox box = (AABox)GetComponent<AABox>();
-            if (SharedData.world.DynamicTree.RayCast(new JVector(Position.X, Position.Y, Position.Z), JVector.UnitX, 10, null, FilterSelf, out IDynamicTreeProxy? proxy, out JVector normal, out float lambda))
+            if (Raycast.RaycastAll(Position, Vector3D<float>.UnitX, 10, out GameObject hitGameObject) && hitGameObject != null)
             {
-                Console.WriteLine($"Raycast hit {lambda}");
+                Console.WriteLine($"Raycast hit {hitGameObject.Position.X}");
             }
-        }
-
-        public bool FilterSelf(RayCastResult result)
-        {
-            return result.Lambda != 0;
         }
 
         public override void CollideStart(Arbiter arb)

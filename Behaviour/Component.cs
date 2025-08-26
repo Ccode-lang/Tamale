@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace Tamale.Behaviour
 {
-    internal abstract class Component
+    public abstract class Component
     {
         public GameObject gameObject = null;
         public abstract void Update(double delta);
-        public abstract void Destroy();
+        public virtual void Destroy()
+        {
+            gameObject.components.Remove(this);
+        }
     }
 }

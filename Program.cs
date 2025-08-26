@@ -189,15 +189,18 @@ namespace Tamale
             Texture texture1 = new Texture("./Assets/texture1.png");
             Texture skullTexture = new Texture("./Assets/skull.jpg");
             GameObject gameObject1 = new TestGameObject(new Vector3D<float>(-1.5f, 0, 0), new Vector3D<float>(0, 0, 0), model, texture1);
-            GameObject gameObject2 = new GameObject(new Vector3D<float>(0, 0, 0), new Vector3D<float>(0, 0, 0), model, skullTexture);
+            GameObject gameObject2 = new GameObject(new Vector3D<float>(0.1f, 0, 0), new Vector3D<float>(0, 0, 0), model, skullTexture);
+            GameObject gameObject3 = new GameObject(new Vector3D<float>(0, 0, 0), new Vector3D<float>(0, 0, 0), skullModel, skullTexture);
             Component spin = new Spin();
             Component box1 = new AABox();
             Component box2 = new AABox();
             gameObject1.components.Add(spin);
             gameObject1.components.Add(box1);
             gameObject2.components.Add(box2);
+            //gameObject3.components.Add(new Spin());
             SharedData.gameObjects.Add(gameObject1);
             SharedData.gameObjects.Add(gameObject2);
+            //SharedData.gameObjects.Add(gameObject3);
         }
 
         private static unsafe void OnRender(double delta)

@@ -7,7 +7,7 @@ using Texture = Tamale.Rendering.Texture;
 
 namespace Tamale.Behaviour
 {
-    internal class GameObject
+    public class GameObject
     {
         public Vector3D<float> Position = new Vector3D<float>(0, 0, 0);
         public Vector3D<float> Rotation = new Vector3D<float>(0, 0, 0);
@@ -77,6 +77,14 @@ namespace Tamale.Behaviour
 
         public virtual void CollideEnd(Arbiter arb)
         {
+        }
+
+        public virtual void Destroy()
+        {
+            foreach (Component component in components)
+            {
+                component.Destroy();
+            }
         }
     }
 }

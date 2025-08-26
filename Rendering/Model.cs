@@ -2,7 +2,7 @@
 
 namespace Tamale.Rendering
 {
-    internal class Model
+    public class Model
     {
         public uint VAO { get; private set; }
         public uint VBO { get; private set; }
