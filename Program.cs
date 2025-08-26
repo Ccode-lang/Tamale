@@ -2,6 +2,7 @@
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using System.Drawing;
+using System.Reflection;
 using Tamale.Behaviour;
 using Tamale.Behaviour.Collision;
 using Tamale.Rendering;
@@ -137,6 +138,34 @@ namespace Tamale
 
         private static void StartGame()
         {
+            Assembly asm;
+
+            try
+            {
+                asm = Assembly.LoadFile(Path.GetFullPath("./TamaleGame.dll"));
+            } catch {
+                Console.WriteLine("No TamaleGame assembly found, loading default scene.");
+                asm = null;
+            }
+
+            Type type = null;
+
+            if (asm != null)
+            {
+                type = asm.GetType("TamaleGame.GameLoad");
+            }
+
+            if (type != null)
+            {
+                MethodInfo method = type.GetMethod("OnGameLoad", BindingFlags.Public | BindingFlags.Static);
+                if (method != null)
+                {
+                    object obj = Activator.CreateInstance(type);
+                    method.Invoke(obj, null);
+                    return;
+                }
+            }
+
             float[] vertices =
             {
                 -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -182,25 +211,19 @@ namespace Tamale
                 -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
             };
 
-            float[] skullverts = Model.LoadCOF("./Assets/skull.cof");
 
             Model model = new Model(vertices);
-            Model skullModel = new Model(skullverts);
             Texture texture1 = new Texture("./Assets/texture1.png");
-            Texture skullTexture = new Texture("./Assets/skull.jpg");
             GameObject gameObject1 = new TestGameObject(new Vector3D<float>(-1.5f, 0, 0), new Vector3D<float>(0, 0, 0), model, texture1);
-            GameObject gameObject2 = new GameObject(new Vector3D<float>(0.1f, 0, 0), new Vector3D<float>(0, 0, 0), model, skullTexture);
-            GameObject gameObject3 = new GameObject(new Vector3D<float>(0, 0, 0), new Vector3D<float>(0, 0, 0), skullModel, skullTexture);
+            GameObject gameObject2 = new GameObject(new Vector3D<float>(0.1f, 0, 0), new Vector3D<float>(0, 0, 0), model, texture1);
             Component spin = new Spin();
             Component box1 = new AABox();
             Component box2 = new AABox();
             gameObject1.components.Add(spin);
             gameObject1.components.Add(box1);
             gameObject2.components.Add(box2);
-            //gameObject3.components.Add(new Spin());
             SharedData.gameObjects.Add(gameObject1);
             SharedData.gameObjects.Add(gameObject2);
-            //SharedData.gameObjects.Add(gameObject3);
         }
 
         private static unsafe void OnRender(double delta)
