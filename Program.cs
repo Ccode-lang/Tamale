@@ -1,4 +1,5 @@
-﻿using Silk.NET.Maths;
+﻿using Silk.NET.Input;
+using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using System.Drawing;
@@ -16,6 +17,8 @@ namespace Tamale
         private static IWindow window;
         public static GL gl;
         public static uint program;
+
+        public static IInputContext input;
 
         static void Main(string[] args)
         {
@@ -36,6 +39,13 @@ namespace Tamale
         private static unsafe void OnLoad()
         {
             gl = window.CreateOpenGL();
+            input = window.CreateInput();
+
+            foreach (IKeyboard keyboard in input.Keyboards)
+            {
+                keyboard.KeyDown += Input.KeyDown;
+                keyboard.KeyUp += Input.KeyUp;
+            }
 
             gl.Enable(EnableCap.DepthTest);
 
