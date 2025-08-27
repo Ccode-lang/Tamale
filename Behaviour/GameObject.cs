@@ -11,12 +11,15 @@ namespace Tamale.Behaviour
     {
         public Vector3D<float> Position = new Vector3D<float>(0, 0, 0);
         public Vector3D<float> Rotation = new Vector3D<float>(0, 0, 0);
+        public Vector3D<float> Scale = new Vector3D<float>(1, 1, 1);
 
         public Model Model { get; set; }
         public Texture Texture { get; set; }
 
         public Vector4D<float> lightingColor = new Vector4D<float>(1, 1, 1, 1);
         public float ambientStrength = 1f;
+
+        public bool render = true;
 
         public List<Component> components = new List<Component>();
 
@@ -30,8 +33,11 @@ namespace Tamale.Behaviour
 
         public unsafe void Render()
         {
+            if (!render) return;
+
             Matrix4X4<float> rot = Matrix4X4.CreateFromYawPitchRoll((float)Math.PI * (Rotation.Y/180), (float)Math.PI * (Rotation.X / 180), (float)Math.PI * (Rotation.Z / 180));
-            Matrix4X4<float> modelMat = rot * Matrix4X4.CreateTranslation(Position);
+            Matrix4X4<float> scale = Matrix4X4.CreateScale(Scale);
+            Matrix4X4<float> modelMat = scale * rot * Matrix4X4.CreateTranslation(Position);
 
             Matrix4X4<float> viewMat = Matrix4X4.CreateTranslation(new Vector3D<float>(-SharedData.cameraPos.X, -SharedData.cameraPos.Y, -SharedData.cameraPos.Z)) * Matrix4X4.CreateFromYawPitchRoll((float)-Math.PI * (SharedData.cameraRot.Y / 180), (float)-Math.PI * (SharedData.cameraRot.X / 180), (float)-Math.PI * (SharedData.cameraRot.Z / 180));
             SharedData.viewMat = viewMat;
