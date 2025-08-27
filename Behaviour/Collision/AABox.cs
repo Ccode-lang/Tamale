@@ -43,6 +43,11 @@ namespace Tamale.Behaviour.Collision
         {
             body.Position = new JVector(gameObject.Position.X, gameObject.Position.Y, gameObject.Position.Z);
 
+            // Why tf is this so well hidden. I looked for hours and ended up finding this because I read the code of Jitter itself.
+            BoxShape box = (BoxShape)body.Shapes[0];
+            box.Size = new JVector(Scale.X, Scale.Y, Scale.Z);
+
+
             if (firstUpdate)
             {
                 body.BeginCollide += gameObject.CollideStart;
