@@ -13,7 +13,7 @@ using Tamale.Behaviour.Collision;
 using Tamale.Rendering;
 using static Jitter2.Collision.DynamicTree;
 
-namespace Tamale
+namespace Tamale.Testing
 {
     internal class TestGameObject : GameObject
     {

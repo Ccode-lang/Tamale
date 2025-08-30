@@ -1,8 +1,9 @@
 ﻿using Silk.NET.Maths;
+using Tamale.Behaviour;
 
 namespace Tamale.Audio
 {
-    public class AudioSource
+    public class AudioSource : Component
     {
         public uint source;
 
@@ -28,6 +29,14 @@ namespace Tamale.Audio
         {
             AudioVars.al.SetSourceProperty(source, Silk.NET.OpenAL.SourceInteger.Buffer, sound.buffer);
             AudioVars.al.SourcePlay(source);
+        }
+
+        public override void Update(double delta)
+        {
+            if (position != gameObject.Position)
+            {
+                position = gameObject.Position;
+            }
         }
     }
 }
