@@ -237,7 +237,7 @@ namespace Tamale
 
             Model model = new Model(vertices);
             Texture texture1 = new Texture("./Assets/texture1.png");
-            GameObject gameObject1 = new TestGameObject(new Vector3D<float>(-1.5f, 0, 0), new Vector3D<float>(0, 0, 0), model, texture1);
+            GameObject gameObject1 = new TestGameObject(new Vector3D<float>(-1.5f, 0, -0.5f), new Vector3D<float>(0, 0, 0), model, texture1);
             GameObject gameObject2 = new GameObject(new Vector3D<float>(0.1f, 0, 0), new Vector3D<float>(0, 0, 0), model, texture1);
             Component spin = new Spin();
             Component box1 = new AABox();
@@ -265,6 +265,19 @@ namespace Tamale
 
         private static void OnUpdate(double delta)
         {
+            AudioVars.al.SetListenerProperty(Silk.NET.OpenAL.ListenerVector3.Position, SharedData.cameraPos.ToSystem());
+
+            Quaternion<float> rot = Quaternion<float>.CreateFromYawPitchRoll((float)-Math.PI * (SharedData.cameraRot.Y / 180), (float)-Math.PI * (SharedData.cameraRot.X / 180), (float)-Math.PI * (SharedData.cameraRot.Z / 180));
+            Vector3D<float> forward = Vector3D.Transform(-Vector3D<float>.UnitZ, rot);
+            Vector3D<float> up = Vector3D.Transform(Vector3D<float>.UnitY, rot);
+            float[] atandup =
+            [
+                forward.X, forward.Y, forward.Z,
+                up.X, up.Y, up.Z
+            ];
+
+            fixed (float* ptr = atandup)
+                AudioVars.al.SetListenerProperty(ListenerFloatArray.Orientation, ptr);
             // Update logic can be added here if needed
             foreach (var gameObject in SharedData.gameObjects)
             {

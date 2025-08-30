@@ -11,7 +11,7 @@ namespace Tamale.Audio
 {
     public class Sound
     {
-        uint buffer;
+        public uint buffer;
 
         public unsafe Sound(string file) {
             WaveFileReader reader = new WaveFileReader(file);
