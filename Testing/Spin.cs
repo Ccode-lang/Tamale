@@ -13,8 +13,5 @@ namespace Tamale.Testing
             //SharedData.cameraRot += new Vector3D<float>(0, 60 * (float)delta, 0);
             //SharedData.cameraPos += new Vector3D<float>(0.5f * (float)delta, 0, 0);
         }
-        public override void Destroy()
-        {
-        }
     }
 }
