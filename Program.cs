@@ -2,16 +2,19 @@
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
+using Silk.NET.OpenAL;
 using System.Drawing;
 using System.Reflection;
 using Tamale.Behaviour;
 using Tamale.Behaviour.Collision;
 using Tamale.Rendering;
+
 using Texture = Tamale.Rendering.Texture;
+using Tamale.Audio;
 
 namespace Tamale
 {
-    internal class Program
+    internal unsafe class Program
     {
 
         private static IWindow window;
@@ -27,7 +30,7 @@ namespace Tamale
                 Size = new Vector2D<int>(800, 600),
                 Title = "TamaleEngine"
             };
-
+            
             window = Window.Create(options);
             window.Load += OnLoad;
             window.Render += OnRender;
@@ -36,10 +39,19 @@ namespace Tamale
             window.Run();
         }
 
-        private static unsafe void OnLoad()
+        private static void OnLoad()
         {
             gl = window.CreateOpenGL();
             input = window.CreateInput();
+            AudioVars.al = AL.GetApi();
+            AudioVars.alc = ALContext.GetApi();
+
+            AudioVars.device = AudioVars.alc.OpenDevice(null);
+            AudioVars.audioContext = AudioVars.alc.CreateContext(AudioVars.device, null);
+            AudioVars.alc.MakeContextCurrent(AudioVars.audioContext);
+
+            AudioVars.source = AudioVars.al.GenSource();
+            AudioVars.al.SetSourceProperty(AudioVars.source, SourceBoolean.Looping, false);
 
             foreach (IKeyboard keyboard in input.Keyboards)
             {
@@ -220,7 +232,8 @@ namespace Tamale
                 -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
                 -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
             };
-
+            Sound sound = new Sound("Assets/test.wav");
+            sound.Play();
 
             Model model = new Model(vertices);
             Texture texture1 = new Texture("./Assets/texture1.png");
