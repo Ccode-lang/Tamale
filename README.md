@@ -2,7 +2,7 @@
 A simple game engine built on top of silk.net.
 
 # TODO
-- [ ] External code loading (for game logic)
+- [X] External code loading (for game logic)
 
 
 # Attributions
