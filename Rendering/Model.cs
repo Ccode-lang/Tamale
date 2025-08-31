@@ -4,11 +4,13 @@ namespace Tamale.Rendering
 {
     public class Model
     {
+        // Vertex Array Object and Vertex Buffer Object
         public uint VAO { get; private set; }
         public uint VBO { get; private set; }
 
         public uint vertexCount { get; private set; }
 
+        // Set up vertex data
         unsafe public Model(float[] vertices) {
             VAO = Program.gl.GenVertexArray();
 
@@ -32,10 +34,12 @@ namespace Tamale.Rendering
             Program.gl.VertexAttribPointer(texCoordLoc, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*)(3 * sizeof(float)));
             Program.gl.EnableVertexAttribArray(texCoordLoc);
 
+            // Unbind VAO and VBO
             Program.gl.BindVertexArray(0);
             Program.gl.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
         }
 
+        // Load a model from a COF file and return vertex data. (OBJ to COF converter in obj2cof)
         public static float[] LoadCOF(string FileName)
         {
             string[] lines = File.ReadAllLines(FileName);
@@ -54,7 +58,7 @@ namespace Tamale.Rendering
                 {
                     if (float.TryParse(part, out float value))
                     {
-                        if (i == 5) value = 1 - value; // Invert the u and v coordinate
+                        if (i == 5) value = 1 - value; // Invert the v coordinate
                         vertices.Add(value);
                         i++;
                     }

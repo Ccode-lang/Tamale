@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tamale.Audio
 {
+    // Static class to hold OpenAL variables
     public static unsafe class AudioVars
     {
         internal static AL al;

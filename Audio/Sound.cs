@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Tamale.Audio
 {
+    // Represents a sound loaded from a WAV file
     public class Sound
     {
         public uint buffer;
@@ -34,6 +35,7 @@ namespace Tamale.Audio
                 AudioVars.al.BufferData(buffer, format, p, data.Length, reader.WaveFormat.SampleRate);
         }
 
+        // Play the sound using the default source
         public void Play() {
             AudioVars.al.SetSourceProperty(AudioVars.source, SourceInteger.Buffer, buffer);
             AudioVars.al.SourcePlay(AudioVars.source);

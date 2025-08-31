@@ -9,6 +9,7 @@ namespace Tamale
 {
     public static class SharedData
     {
+        // Rendering and camera data
         public static int uModel;
         public static int uView;
         public static int uProjection;
@@ -20,15 +21,10 @@ namespace Tamale
         public static Vector3D<float> cameraPos = new Vector3D<float>(0, 0, 3);//new Vector3D<float>(0, 0, 3);
         public static Vector3D<float> cameraRot = new Vector3D<float>(0, 0, 0);
 
-
+        // Physics and world data
         public static List<GameObject> gameObjects = new List<GameObject>();
         public static List<AABox> AABoxes = new List<AABox>();
         public static World world = new World();
         public static Dictionary<int, GameObject> ProxyPtrToObjectTable = new Dictionary<int, GameObject>();
-
-        public static AABox GetAABoxFromRigidbody(RigidBody body)
-        {
-            return AABoxes.FirstOrDefault(box => box.body.RigidBodyId == body.RigidBodyId);
-        }
     }
 }
