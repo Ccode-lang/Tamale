@@ -1,8 +1,11 @@
 # Tamale
-A simple game engine built on top of silk.net.
+A simple game engine built on top of Silk.NET.
 
 # TODO
 - [X] External code loading (for game logic)
+- [X] Basic collision checking
+- [X] 3d Audio
+- [ ] Dynamic collision and rotation of hitboxes
 
 
 # Attributions
