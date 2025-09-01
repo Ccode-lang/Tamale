@@ -24,9 +24,11 @@ namespace Tamale.Testing
         public override void Update(double delta)
         {
             AABox box = (AABox)GetComponent<AABox>();
-            if (Raycast.RaycastAll(Position, Vector3D<float>.UnitX, 10, out GameObject hitGameObject) && hitGameObject != null)
+            Spin spin = (Spin)GetComponent<Spin>();
+            if (box.ForwardCast(Math.QuaternionToDirection(Vector3D<float>.UnitX, Math.EulerToQuaternion(Rotation)), 0.5f * (float)delta, out GameObject hit) && spin != null)
             {
-                Console.WriteLine($"Raycast hit {hitGameObject.Position.X}");
+                Console.WriteLine($"Ran into somthing with position {hit.Position}");
+                spin.Destroy();
             }
         }
 

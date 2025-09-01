@@ -10,7 +10,7 @@ using static Jitter2.Collision.DynamicTree;
 
 namespace Tamale.Behaviour.Collision
 {
-    public static class Raycast
+    public static class Physics
     {
         // Raycasts that return the first GameObject hit. Ignores object is started inside of.
         public static bool RaycastAll(Vector3D<float> point, Vector3D<float> direction, float range, out GameObject gameObject)

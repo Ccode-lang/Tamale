@@ -295,9 +295,9 @@ namespace Tamale
             AudioVars.al.SetListenerProperty(ListenerVector3.Position, SharedData.cameraPos.ToSystem());
             AudioVars.al.SetSourceProperty(AudioVars.source, SourceVector3.Position, SharedData.cameraPos.ToSystem());
 
-            Quaternion<float> rot = Quaternion<float>.CreateFromYawPitchRoll((float)Math.PI * (SharedData.cameraRot.Y / 180), (float)Math.PI * (SharedData.cameraRot.X / 180), (float)Math.PI * (SharedData.cameraRot.Z / 180));
-            Vector3D<float> forward = Vector3D.Transform(-Vector3D<float>.UnitZ, rot);
-            Vector3D<float> up = Vector3D.Transform(Vector3D<float>.UnitY, rot);
+            Quaternion<float> rot = Math.EulerToQuaternion(SharedData.cameraRot);
+            Vector3D<float> forward = Math.QuaternionToDirection(-Vector3D<float>.UnitZ, rot);
+            Vector3D<float> up = Math.QuaternionToDirection(Vector3D<float>.UnitY, rot);
             float[] atandup =
             [
                 forward.X, forward.Y, forward.Z,
