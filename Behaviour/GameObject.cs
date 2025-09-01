@@ -46,7 +46,7 @@ namespace Tamale.Behaviour
             Matrix4X4<float> modelMat = scale * rot * Matrix4X4.CreateTranslation(Position);
 
             // Set up view matrix
-            Matrix4X4<float> viewMat = Matrix4X4.CreateTranslation(new Vector3D<float>(-SharedData.cameraPos.X, -SharedData.cameraPos.Y, -SharedData.cameraPos.Z)) * Matrix4X4.CreateFromYawPitchRoll(Math.DegToRad(SharedData.cameraRot.Y), Math.DegToRad(SharedData.cameraRot.X), Math.DegToRad(SharedData.cameraRot.Z));
+            Matrix4X4<float> viewMat = Matrix4X4.CreateTranslation(new Vector3D<float>(-SharedData.cameraPos.X, -SharedData.cameraPos.Y, -SharedData.cameraPos.Z)) * Matrix4X4.CreateFromYawPitchRoll(Math.DegToRad(-SharedData.cameraRot.Y), Math.DegToRad(-SharedData.cameraRot.X), Math.DegToRad(-SharedData.cameraRot.Z));
             SharedData.viewMat = viewMat;
 
             // Send matrices to shader

@@ -1,6 +1,7 @@
 ﻿using Silk.NET.Maths;
 using Tamale;
 using Tamale.Behaviour;
+using Tamale.Behaviour.Collision;
 using Tamale.Rendering;
 
 namespace TamaleGame
@@ -11,14 +12,20 @@ namespace TamaleGame
         {
             Console.WriteLine("Game Loaded!");
 
-            float[] skullverts = Model.LoadCOF("./Assets/skull.cof");
-
-            Model skullModel = new Model(skullverts);
             Model cube = new Model(Model.LoadCOF("./Assets/cube.cof"));
-            Texture skullTexture = new Texture("./Assets/skull.jpg");
-            GameObject gameObject3 = new SpinWhenPressingA(new Vector3D<float>(0, 0, 0), new Vector3D<float>(0, 0, 0), cube, skullTexture);
-            gameObject3.Scale = new Vector3D<float>(0.5f, 0.5f, 0.5f);
-            SharedData.gameObjects.Add(gameObject3);
+            Texture skullTexture = new Texture("./Assets/texture1.png");
+
+
+            GameObject floor = new GameObject(new Vector3D<float>(0, 0, 0), new Vector3D<float>(0, 0, 0), cube, skullTexture);
+            floor.Scale = new Vector3D<float>(0.5f, 0.5f, 0.5f) * new Vector3D<float>(20, 0.1f, 20);
+            AABox floorCollider = new AABox();
+            floorCollider.Scale = floor.Scale * 2;
+            floorCollider.IsStatic = true;
+            floor.components.Add(floorCollider);
+            SharedData.gameObjects.Add(floor);
+
+            Player player = new Player(new Vector3D<float>(0, 5, 0), new Vector3D<float>(0, 0, 0), null, null);
+            SharedData.gameObjects.Add(player);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Tamale
         // Convert Euler angles to quaternion
         public static Quaternion<float> EulerToQuaternion(Vector3D<float> euler)
         {
-            return Quaternion<float>.CreateFromYawPitchRoll(DegToRad(SharedData.cameraRot.Y), DegToRad(SharedData.cameraRot.X), DegToRad(SharedData.cameraRot.Z));
+            return Quaternion<float>.CreateFromYawPitchRoll(DegToRad(euler.Y), DegToRad(euler.X), DegToRad(euler.Z));
         }
 
         public static Vector3D<float> QuaternionToDirection(Vector3D<float> dir, Quaternion<float> rot)
