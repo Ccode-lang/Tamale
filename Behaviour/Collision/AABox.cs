@@ -99,6 +99,48 @@ namespace Tamale.Behaviour.Collision
             return localObjectHit != null;
         }
 
+        // An overload that implements tag filtering.
+        public bool ForwardCast(Vector3D<float> direction, float distance, out GameObject[] ObjectsHit, string tag)
+        {
+            // Set rigidbody position to target position.
+            Vector3D<float> target = gameObject.Position + Vector3D.Normalize(direction) * distance;
+            body.Position = new JVector(target.X, target.Y, target.Z);
+
+            // Need this because access levels for local functions are weird.
+            List<GameObject> localObjectsHit = new List<GameObject>();
+
+            // Call callback for each overlap in the dynamic tree.
+            SharedData.world.DynamicTree.EnumerateOverlaps(Callback);
+
+            // Local function to be called for each overlap in the dynamic tree.
+            void Callback(IDynamicTreeProxy proxy, IDynamicTreeProxy proxy2)
+            {
+                GameObject objectHit = null;
+                IDynamicTreeProxy thisproxy = body.Shapes[0];
+                if (thisproxy.NodePtr == proxy.NodePtr)
+                {
+                    SharedData.ProxyPtrToObjectTable.TryGetValue(proxy2.NodePtr, out objectHit);
+                }
+                if (thisproxy.NodePtr == proxy2.NodePtr)
+                {
+                    SharedData.ProxyPtrToObjectTable.TryGetValue(proxy.NodePtr, out objectHit);
+                }
+
+                if (objectHit != null && objectHit.tags.Contains(tag))
+                {
+                    localObjectsHit.Add(objectHit);
+                }
+            }
+
+            // Reset the position of the rigidbody to the gameobject's position.
+            body.Position = new JVector(gameObject.Position.X, gameObject.Position.Y, gameObject.Position.Z);
+
+            // Return stuff
+            ObjectsHit = localObjectsHit.ToArray();
+
+            return localObjectsHit != null;
+        }
+
         public override void Destroy()
         {
             // Clean up the jitter objects and remove this from the list of AABoxes in the scene.

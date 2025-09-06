@@ -15,14 +15,12 @@ namespace TamaleGame
             Model cube = new Model(Model.LoadCOF("./Assets/cube.cof"));
             Texture skullTexture = new Texture("./Assets/texture1.png");
 
+            // Scale the cube to 1 unit
+            cube.ModelScale = new Vector3D<float>(0.5f, 0.5f, 0.5f);
 
-            GameObject floor = new GameObject(new Vector3D<float>(0, 0, 0), new Vector3D<float>(0, 0, 0), cube, skullTexture);
-            floor.Scale = new Vector3D<float>(0.5f, 0.5f, 0.5f) * new Vector3D<float>(20, 0.1f, 20);
-            AABox floorCollider = new AABox();
-            floorCollider.Scale = floor.Scale * 2;
-            floorCollider.IsStatic = true;
-            floor.components.Add(floorCollider);
-            SharedData.gameObjects.Add(floor);
+
+            GameObject.MakeAABoxWithModel(new Vector3D<float>(0, 0, 0), cube, skullTexture, new Vector3D<float>(20, 0.1f, 20), true);
+            GameObject.MakeAABoxWithModel(new Vector3D<float>(0, 0, -3), cube, skullTexture, new Vector3D<float>(10, 10, 0.1f), true);
 
             Player player = new Player(new Vector3D<float>(0, 5, 0), new Vector3D<float>(0, 0, 0), null, null);
             SharedData.gameObjects.Add(player);

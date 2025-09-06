@@ -1,4 +1,5 @@
-﻿using Silk.NET.OpenGL;
+﻿using Silk.NET.Maths;
+using Silk.NET.OpenGL;
 
 namespace Tamale.Rendering
 {
@@ -9,6 +10,7 @@ namespace Tamale.Rendering
         public uint VBO { get; private set; }
 
         public uint vertexCount { get; private set; }
+        public Vector3D<float> ModelScale = new Vector3D<float>(1, 1, 1);
 
         // Set up vertex data
         unsafe public Model(float[] vertices) {

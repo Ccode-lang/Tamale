@@ -1,6 +1,8 @@
 ﻿using Jitter2.Dynamics;
+using NAudio.Wave;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using Tamale.Behaviour.Collision;
 using Tamale.Rendering;
 using Texture = Tamale.Rendering.Texture;
 
@@ -27,6 +29,9 @@ namespace Tamale.Behaviour
         // List of components attached to this GameObject
         public List<Component> components = new List<Component>();
 
+        // Tags
+        public List<string> tags = new List<string>();
+
         public GameObject(Vector3D<float> position, Vector3D<float> rotation, Model model, Texture texture)
         {
             Position = position;
@@ -42,7 +47,7 @@ namespace Tamale.Behaviour
 
             // Set up model matrix
             Matrix4X4<float> rot = Matrix4X4.CreateFromYawPitchRoll(Math.DegToRad(Rotation.Y), Math.DegToRad(Rotation.X), Math.DegToRad(Rotation.Z));
-            Matrix4X4<float> scale = Matrix4X4.CreateScale(Scale);
+            Matrix4X4<float> scale = Matrix4X4.CreateScale(Scale * Model.ModelScale);
             Matrix4X4<float> modelMat = scale * rot * Matrix4X4.CreateTranslation(Position);
 
             // Set up view matrix
@@ -109,6 +114,20 @@ namespace Tamale.Behaviour
             {
                 component.Destroy();
             }
+        }
+
+
+        //Utility function down here
+        public static GameObject MakeAABoxWithModel(Vector3D<float> position, Model model, Texture texture, Vector3D<float> scale, bool isStatic)
+        {
+            GameObject obj = new GameObject(position, new Vector3D<float>(0, 0, 0), model, texture);
+            obj.Scale = scale;
+            AABox box = new AABox();
+            box.Scale = obj.Scale;
+            box.IsStatic = isStatic;
+            obj.components.Add(box);
+            SharedData.gameObjects.Add(obj);
+            return obj;
         }
     }
 }
