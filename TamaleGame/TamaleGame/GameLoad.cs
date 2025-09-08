@@ -19,8 +19,8 @@ namespace TamaleGame
             cube.ModelScale = new Vector3D<float>(0.5f, 0.5f, 0.5f);
 
 
-            GameObject.MakeAABoxWithModel(new Vector3D<float>(0, 0, 0), cube, skullTexture, new Vector3D<float>(20, 0.1f, 20), true);
-            GameObject.MakeAABoxWithModel(new Vector3D<float>(0, 0, -3), cube, skullTexture, new Vector3D<float>(10, 10, 0.1f), true);
+            GameObject.MakeAABoxWithModel(new Vector3D<float>(0, 0, 0), cube, skullTexture, new Vector3D<float>(20, 0.1f, 20), true).tags.Add("floor");
+            GameObject.MakeAABoxWithModel(new Vector3D<float>(0, 0, -3), cube, skullTexture, new Vector3D<float>(10, 10, 0.1f), true).tags.Add("wall");
 
             Player player = new Player(new Vector3D<float>(0, 5, 0), new Vector3D<float>(0, 0, 0), null, null);
             SharedData.gameObjects.Add(player);

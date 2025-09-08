@@ -25,7 +25,7 @@ namespace TamaleGame
 
         public override void Update(double delta)
         {
-            if (!collider.ForwardCast(-Vector3D<float>.UnitY, 2 * (float)delta, out GameObject hit))
+            if (!collider.ForwardCast(-Vector3D<float>.UnitY, 2 * (float)delta, out GameObject[] hits1, "floor"))
             {
                 Position += -Vector3D<float>.UnitY * 2 * (float)delta;
             }
@@ -40,11 +40,9 @@ namespace TamaleGame
             }
 
             Vector3D<float> forward = Math.QuaternionToDirection(-Vector3D<float>.UnitZ, Math.EulerToQuaternion(Rotation));
-            Console.WriteLine(forward);
-            Console.WriteLine(Quaternion<float>.Normalize(Math.EulerToQuaternion(Rotation)));
             if (Input.GetKey(Silk.NET.Input.Key.W))
             {
-                if (!collider.ForwardCast(forward, 2 * (float)delta, out GameObject hit1))
+                if (!collider.ForwardCast(forward, 2 * (float)delta, out GameObject[] hits, "wall"))
                     Position += forward * 2 * (float)delta;
             }
 

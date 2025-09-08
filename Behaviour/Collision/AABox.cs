@@ -138,7 +138,7 @@ namespace Tamale.Behaviour.Collision
             // Return stuff
             ObjectsHit = localObjectsHit.ToArray();
 
-            return localObjectsHit != null;
+            return localObjectsHit.Count > 0;
         }
 
         public override void Destroy()
